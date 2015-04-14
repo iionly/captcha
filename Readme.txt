@@ -1,10 +1,10 @@
-Captcha Plugin for Elgg 1.9
-Latest Version: 1.9.1
-Released: 2013-09-14
+Captcha Plugin for Elgg 1.9 - 1.11
+Latest Version: 1.9.2
+Released: 2015-04-14
 Contact: iionly@gmx.de
 Website: https://github.com/iionly
 License: GNU General Public License version 2
-Copyright: (C) iionly 2012-2013, (C) Curverider 2008-2013
+Copyright: (C) iionly 2012-2015, (C) Curverider 2008-2015
 
 
 Provides captcha support (Requires the php_gd library).
@@ -21,6 +21,15 @@ The captcha plugin also works with the walled-garden option of Elgg core enabled
 
 
 Changelog:
+
+1.9.2:
+
+- Version 1.8.2 updated to work on Elgg 1.9 - 1.11.
+
+1.8.2:
+
+- Captcha image shows up also on Chrome browser correctly.
+
 
 1.9.1:
 
