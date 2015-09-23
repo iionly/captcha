@@ -10,14 +10,14 @@ $token = captcha_generate_token();
 ?>
 
 <div class="captcha">
-    <input type="hidden" name="captcha_token" value="<?php echo $token; ?>" />
-    <label>
-        <?php echo elgg_echo('captcha:entercaptcha'); ?><br /><br />
-        <div class="captcha-right">
-            <img class="captcha-input-image" src="<?php echo elgg_get_site_url() . "captcha/$token"; ?>" /><br />
-        </div><br />
-        <div class="captcha-left">
-            <?php echo elgg_view('input/text', array('name' => 'captcha_input', 'class' => 'captcha-input-text')); ?>
-        </div>
-    </label>
+	<input type="hidden" name="captcha_token" value="<?php echo $token; ?>" />
+	<label>
+		<?php echo elgg_echo('captcha:entercaptcha'); ?><br><br>
+		<div class="captcha-right">
+			<img class="captcha-input-image" src="<?php echo elgg_get_site_url() . "captcha/$token"; ?>" /><br>
+		</div><br>
+		<div class="captcha-left">
+			<?php echo elgg_view('input/text', array('name' => 'captcha_input', 'class' => 'captcha-input-text')); ?>
+		</div>
+	</label>
 </div>

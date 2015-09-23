@@ -5,6 +5,6 @@
  */
 
 return array(
-  'captcha:entercaptcha' => 'Bitte den im Bild angezeigten Text eingeben',
-  'captcha:captchafail' => 'Entschuldigung, der eingegebene Text stimmt nicht mit dem im Bild angezeigten Text überein.'
+	'captcha:entercaptcha' => 'Bitte den im Bild angezeigten Text eingeben',
+	'captcha:captchafail' => 'Entschuldigung, der eingegebene Text stimmt nicht mit dem im Bild angezeigten Text überein.'
 );

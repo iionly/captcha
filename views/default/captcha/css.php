@@ -1,4 +1,4 @@
 .captcha-input-image {
-  text-align: center;
-  margin: auto;
+	text-align: center;
+	margin: auto;
 }

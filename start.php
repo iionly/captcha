@@ -7,60 +7,59 @@
 
 elgg_register_event_handler('init','system','captcha_init');
 
-function captcha_init()	{
+function captcha_init() {
+	// Register page handler for captcha functionality
+	elgg_register_page_handler('captcha', 'captcha_page_handler');
 
-    // Register page handler for captcha functionality
-    elgg_register_page_handler('captcha','captcha_page_handler');
+	// Extend CSS
+	elgg_extend_view('css/elgg', 'captcha/css');
 
-    // Extend CSS
-    elgg_extend_view('css/elgg','captcha/css');
+	// Number of background images
+	elgg_set_plugin_setting('captcha_num_bg', 5, 'captcha');
 
-    // Number of background images
-    elgg_set_plugin_setting('captcha_num_bg', 5, 'captcha');
+	// Default length
+	elgg_set_plugin_setting('captcha_length', 5, 'captcha');
 
-    // Default length
-    elgg_set_plugin_setting('captcha_length', 5, 'captcha');
+	// Register a function that provides some default override actions
+	elgg_register_plugin_hook_handler('actionlist', 'captcha', 'captcha_actionlist_hook');
 
-    // Register a function that provides some default override actions
-    elgg_register_plugin_hook_handler('actionlist', 'captcha', 'captcha_actionlist_hook');
+	// Register captcha page as public page for walled-garden
+	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'captcha_public');
 
-    // Register captcha page as public page for walled-garden
-    elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'captcha_public');
+	// Register actions to intercept
+	$actions = array();
+	$actions = elgg_trigger_plugin_hook('actionlist', 'captcha', null, $actions);
 
-    // Register actions to intercept
-    $actions = array();
-    $actions = elgg_trigger_plugin_hook('actionlist', 'captcha', null, $actions);
-
-    if (($actions) && (is_array($actions))) {
-        foreach ($actions as $action) {
-            elgg_register_plugin_hook_handler("action", $action, "captcha_verify_action_hook");
-        }
-    }
+	if (($actions) && (is_array($actions))) {
+		foreach ($actions as $action) {
+			elgg_register_plugin_hook_handler("action", $action, "captcha_verify_action_hook");
+		}
+	}
 }
 
 function captcha_public($hook, $handler, $return, $params) {
-    $pages = array('captcha/.*');
+	$pages = array('captcha/.*');
 
-    if (is_array($return))
-        $pages = array_merge($pages, $return);
+	if (is_array($return)) {
+		$pages = array_merge($pages, $return);
+	}
 
-    return $pages;
+	return $pages;
 }
 
 function captcha_page_handler($page) {
+	if (isset($page[0])) {
+		set_input('captcha_token',$page[0]);
+	}
 
-    if (isset($page[0])) {
-        set_input('captcha_token',$page[0]);
-    }
-
-    include(elgg_get_plugins_path() . "captcha/captcha.php");
+	include(elgg_get_plugins_path() . "captcha/captcha.php");
 }
 
 /**
  * Generate a token to act as a seed value for the captcha algorithm.
  */
 function captcha_generate_token() {
-    return md5(generate_action_token(time()).rand()); // Use action token plus some random for uniqueness
+	return md5(generate_action_token(time()) . rand()); // Use action token plus some random for uniqueness
 }
 
 /**
@@ -70,16 +69,16 @@ function captcha_generate_token() {
  * @return string
  */
 function captcha_generate_captcha($seed_token) {
-    /**
-     * We generate a token out of the random seed value + some session data,
-     * this means that solving via pr0n site or indian cube farm becomes
-     * significantly more tricky (we hope).
-     *
-     * We also add the site secret, which is unavailable to the client and so should
-     * make it very very hard to guess values before hand.
-     *
-     */
-    return strtolower(substr(md5(generate_action_token(0) . $seed_token), 0, elgg_get_plugin_setting('captcha_length', 'captcha')));
+	/**
+	 * We generate a token out of the random seed value + some session data,
+	 * this means that solving via pr0n site or indian cube farm becomes
+	 * significantly more tricky (we hope).
+	 *
+	 * We also add the site secret, which is unavailable to the client and so should
+	 * make it very very hard to guess values before hand.
+	 *
+	 */
+	return strtolower(substr(md5(generate_action_token(0) . $seed_token), 0, elgg_get_plugin_setting('captcha_length', 'captcha')));
 }
 
 /**
@@ -90,11 +89,11 @@ function captcha_generate_captcha($seed_token) {
  * @return bool
  */
 function captcha_verify_captcha($input_value, $seed_token) {
-    if (strcasecmp($input_value, captcha_generate_captcha($seed_token)) == 0) {
-        return true;
-    }
+	if (strcasecmp($input_value, captcha_generate_captcha($seed_token)) == 0) {
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -106,19 +105,19 @@ function captcha_verify_captcha($input_value, $seed_token) {
  * @param unknown_type $params
  */
 function captcha_verify_action_hook($hook, $entity_type, $returnvalue, $params) {
-    $token = get_input('captcha_token');
-    $input = get_input('captcha_input');
+	$token = get_input('captcha_token');
+	$input = get_input('captcha_input');
 
-    if (($token) && (captcha_verify_captcha($input, $token))) {
-        return true;
-    }
+	if (($token) && (captcha_verify_captcha($input, $token))) {
+		return true;
+	}
 
-    register_error(elgg_echo('captcha:captchafail'));
+	register_error(elgg_echo('captcha:captchafail'));
 
-    // forward to referrer or else action code sends to front page
-    forward(REFERER);
+	// forward to referrer or else action code sends to front page
+	forward(REFERER);
 
-    return false;
+	return false;
 }
 
 /**
@@ -131,12 +130,12 @@ function captcha_verify_action_hook($hook, $entity_type, $returnvalue, $params) 
  * @param unknown_type $params
  */
 function captcha_actionlist_hook($hook, $entity_type, $returnvalue, $params) {
-    if (!is_array($returnvalue)) {
-        $returnvalue = array();
-    }
+	if (!is_array($returnvalue)) {
+		$returnvalue = array();
+	}
 
-    $returnvalue[] = 'register';
-    $returnvalue[] = 'user/requestnewpassword';
+	$returnvalue[] = 'register';
+	$returnvalue[] = 'user/requestnewpassword';
 
-    return $returnvalue;
+	return $returnvalue;
 }
