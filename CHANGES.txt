@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.3.4
+-----
+
+- Requires Elgg 2.3 at minimum,
+- Code cleanup,
+- Makes use of API functions added in Elgg 2.3 for form inputs.
+
 1.9.3
 -----
 

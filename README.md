@@ -1,12 +1,12 @@
-Captcha Plugin for Elgg 1.9 - 1.12 and Elgg 2.X
-===============================================
+Captcha Plugin for Elgg 2.3 and newer Elgg 2.X
+==============================================
 
-Latest Version: 1.9.3  
-Released: 2015-09-23  
+Latest Version: 2.3.4  
+Released: 2018-08-08  
 Contact: iionly@gmx.de  
 Website: https://github.com/iionly  
 License: GNU General Public License version 2  
-Copyright: (C) iionly 2012-2015, (C) Curverider 2008-2015
+Copyright: (C) iionly 2012, (C) Curverider 2008
 
 
 Description

@@ -4,7 +4,7 @@
  *
  */
 
-return array(
+return [
 	'captcha:entercaptcha' => 'Enter the text from the image',
-	'captcha:captchafail' => 'Sorry, the text that you entered didn\'t match the text in the image.'
-);
+	'captcha:captchafail' => 'Sorry, the text that you entered didn\'t match the text in the image.',
+];

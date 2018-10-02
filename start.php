@@ -5,20 +5,19 @@
  * @package ElggCaptcha
  */
 
-elgg_register_event_handler('init','system','captcha_init');
+// Number of background images
+define('CAPTCHA_NUM_BG', 5);
+// Default length
+define('CAPTCHA_LENGTH', 5);
+
+elgg_register_event_handler('init', 'system', 'captcha_init');
 
 function captcha_init() {
 	// Register page handler for captcha functionality
 	elgg_register_page_handler('captcha', 'captcha_page_handler');
 
 	// Extend CSS
-	elgg_extend_view('css/elgg', 'captcha/css');
-
-	// Number of background images
-	elgg_set_plugin_setting('captcha_num_bg', 5, 'captcha');
-
-	// Default length
-	elgg_set_plugin_setting('captcha_length', 5, 'captcha');
+	elgg_extend_view('elgg.css', 'captcha/captcha.css');
 
 	// Register a function that provides some default override actions
 	elgg_register_plugin_hook_handler('actionlist', 'captcha', 'captcha_actionlist_hook');
@@ -27,18 +26,18 @@ function captcha_init() {
 	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'captcha_public');
 
 	// Register actions to intercept
-	$actions = array();
+	$actions = [];
 	$actions = elgg_trigger_plugin_hook('actionlist', 'captcha', null, $actions);
 
 	if (($actions) && (is_array($actions))) {
 		foreach ($actions as $action) {
-			elgg_register_plugin_hook_handler("action", $action, "captcha_verify_action_hook");
+			elgg_register_plugin_hook_handler('action', $action, 'captcha_verify_action_hook');
 		}
 	}
 }
 
 function captcha_public($hook, $handler, $return, $params) {
-	$pages = array('captcha/.*');
+	$pages = ['captcha/.*'];
 
 	if (is_array($return)) {
 		$pages = array_merge($pages, $return);
@@ -48,11 +47,14 @@ function captcha_public($hook, $handler, $return, $params) {
 }
 
 function captcha_page_handler($page) {
+	$resourcevars = [];
 	if (isset($page[0])) {
-		set_input('captcha_token',$page[0]);
+		$resourcevars['captcha_token'] = $page[0];
 	}
 
-	include(elgg_get_plugins_path() . "captcha/captcha.php");
+	echo elgg_view_resource('captcha/captcha', $resourcevars);
+
+	return true;
 }
 
 /**
@@ -78,7 +80,7 @@ function captcha_generate_captcha($seed_token) {
 	 * make it very very hard to guess values before hand.
 	 *
 	 */
-	return strtolower(substr(md5(generate_action_token(0) . $seed_token), 0, elgg_get_plugin_setting('captcha_length', 'captcha')));
+	return strtolower(substr(md5(generate_action_token(0) . $seed_token), 0, CAPTCHA_LENGTH));
 }
 
 /**
@@ -100,11 +102,13 @@ function captcha_verify_captcha($input_value, $seed_token) {
  * Listen to the action plugin hook and check the captcha.
  *
  * @param unknown_type $hook
- * @param unknown_type $entity_type
+ * @param unknown_type $type
  * @param unknown_type $returnvalue
  * @param unknown_type $params
  */
-function captcha_verify_action_hook($hook, $entity_type, $returnvalue, $params) {
+function captcha_verify_action_hook($hook, $type, $returnvalue, $params) {
+	elgg_make_sticky_form($type);
+
 	$token = get_input('captcha_token');
 	$input = get_input('captcha_input');
 
@@ -125,13 +129,13 @@ function captcha_verify_action_hook($hook, $entity_type, $returnvalue, $params) 
  * add their own to this list thereby extending the use.
  *
  * @param unknown_type $hook
- * @param unknown_type $entity_type
+ * @param unknown_type $type
  * @param unknown_type $returnvalue
  * @param unknown_type $params
  */
-function captcha_actionlist_hook($hook, $entity_type, $returnvalue, $params) {
+function captcha_actionlist_hook($hook, $type, $returnvalue, $params) {
 	if (!is_array($returnvalue)) {
-		$returnvalue = array();
+		$returnvalue = [];
 	}
 
 	$returnvalue[] = 'register';

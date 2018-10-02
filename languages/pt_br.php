@@ -6,7 +6,7 @@
  * https://facebook.com.br/guilhermeluizlessa
  */
 
-return array(
+return [
 	'captcha:entercaptcha' => 'Digite o texto da imagem',
-	'captcha:captchafail' => 'Lamentamos, mas o texto que você digitou não corresponde ao texto da imagem.'
-);
+	'captcha:captchafail' => 'Lamentamos, mas o texto que você digitou não corresponde ao texto da imagem.',
+];
