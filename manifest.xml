@@ -3,7 +3,7 @@
 	<name>Captcha</name>
 	<id>captcha</id>
 	<author>iionly (for Elgg 1.8 and newer), Curverider Ltd</author>
-	<version>2.3.4</version>
+	<version>3.0.0</version>
 	<category>security</category>
 	<description>Provides captcha support (Requires the php_gd library).</description>
 	<website>https://github.com/iionly</website>
@@ -11,7 +11,7 @@
 	<license>GNU Public License version 2</license>
 	<requires>
 		<type>elgg_release</type>
-		<version>2.3.0</version>
+		<version>3.0.0</version>
 	</requires>
 	<requires>
 		<type>priority</type>

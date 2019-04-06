@@ -13,17 +13,11 @@ define('CAPTCHA_LENGTH', 5);
 elgg_register_event_handler('init', 'system', 'captcha_init');
 
 function captcha_init() {
-	// Register page handler for captcha functionality
-	elgg_register_page_handler('captcha', 'captcha_page_handler');
-
 	// Extend CSS
 	elgg_extend_view('elgg.css', 'captcha/captcha.css');
 
 	// Register a function that provides some default override actions
 	elgg_register_plugin_hook_handler('actionlist', 'captcha', 'captcha_actionlist_hook');
-
-	// Register captcha page as public page for walled-garden
-	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'captcha_public');
 
 	// Register actions to intercept
 	$actions = [];
@@ -34,27 +28,6 @@ function captcha_init() {
 			elgg_register_plugin_hook_handler('action', $action, 'captcha_verify_action_hook');
 		}
 	}
-}
-
-function captcha_public($hook, $handler, $return, $params) {
-	$pages = ['captcha/.*'];
-
-	if (is_array($return)) {
-		$pages = array_merge($pages, $return);
-	}
-
-	return $pages;
-}
-
-function captcha_page_handler($page) {
-	$resourcevars = [];
-	if (isset($page[0])) {
-		$resourcevars['captcha_token'] = $page[0];
-	}
-
-	echo elgg_view_resource('captcha/captcha', $resourcevars);
-
-	return true;
 }
 
 /**
@@ -101,13 +74,11 @@ function captcha_verify_captcha($input_value, $seed_token) {
 /**
  * Listen to the action plugin hook and check the captcha.
  *
- * @param unknown_type $hook
- * @param unknown_type $type
- * @param unknown_type $returnvalue
- * @param unknown_type $params
+ * @param \Elgg\Hook $hook Hook
+ * @return array
  */
-function captcha_verify_action_hook($hook, $type, $returnvalue, $params) {
-	elgg_make_sticky_form($type);
+function captcha_verify_action_hook(\Elgg\Hook $hook) {
+	elgg_make_sticky_form($hook->getType());
 
 	$token = get_input('captcha_token');
 	$input = get_input('captcha_input');
@@ -128,12 +99,12 @@ function captcha_verify_action_hook($hook, $type, $returnvalue, $params) {
  * This function returns an array of actions the captcha will expect a captcha for, other plugins may
  * add their own to this list thereby extending the use.
  *
- * @param unknown_type $hook
- * @param unknown_type $type
- * @param unknown_type $returnvalue
- * @param unknown_type $params
+ * @param \Elgg\Hook $hook Hook
+ * @return array
  */
-function captcha_actionlist_hook($hook, $type, $returnvalue, $params) {
+function captcha_actionlist_hook(\Elgg\Hook $hook) {
+	$returnvalue = $hook->getValue();
+
 	if (!is_array($returnvalue)) {
 		$returnvalue = [];
 	}
