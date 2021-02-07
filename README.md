@@ -1,8 +1,8 @@
-Captcha Plugin for Elgg 3.0 and newer Elgg 3.X
+Captcha Plugin for Elgg 3.3 and newer Elgg 3.X
 ==============================================
 
-Latest Version: 3.0.0  
-Released: 2018-08-08  
+Latest Version: 3.3.1  
+Released: 2021-02-07  
 Contact: iionly@gmx.de  
 Website: https://github.com/iionly  
 License: GNU General Public License version 2  
