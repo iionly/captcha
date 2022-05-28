@@ -10,7 +10,7 @@ $token = elgg_extract('captcha_token', $vars);
 // Output captcha
 if ($token) {
 	// Generate captcha
-	$captcha = captcha_generate_captcha($token);
+	$captcha = \CaptchaFunctions::captcha_generate_captcha($token);
 
 	// Pick a random background image
 	$n = rand(1, CAPTCHA_NUM_BG);

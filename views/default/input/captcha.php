@@ -6,7 +6,7 @@
  */
 
 // Generate a token which is then passed into the captcha algorithm for verification
-$token = captcha_generate_token();
+$token = \CaptchaFunctions::captcha_generate_token();
 
 echo '<div class="captcha">';
 echo elgg_view_field([

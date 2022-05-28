@@ -1,9 +1,15 @@
 <?php
 
-require_once(dirname(__FILE__) . '/lib/functions.php');
-require_once(dirname(__FILE__) . '/lib/hooks.php');
+// Number of background images
+define('CAPTCHA_NUM_BG', 5);
+// Default length
+define('CAPTCHA_LENGTH', 5);
 
 return [
+	'plugin' => [
+		'name' => 'Captcha',
+		'version' => '4.0.0',
+	],
 	'bootstrap' => \CaptchaBootstrap::class,
 	'routes' => [
 		'captcha' => [
@@ -14,7 +20,7 @@ return [
 	],
 	'view_extensions' => [
 		'css/elgg' => [
-			'captcha/captcha.css' => [],
+			'captcha/css' => [],
 		],
 	],
 ];
