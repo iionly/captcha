@@ -22,7 +22,7 @@ class CaptchaHooks {
 			return true;
 		}
 
-		register_error(elgg_echo('captcha:captchafail'));
+		elgg_register_error_message(elgg_echo('captcha:captchafail'));
 
 		// forward to referrer or else action code sends to front page
 		elgg_redirect_response(REFERER);

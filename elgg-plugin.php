@@ -8,7 +8,7 @@ define('CAPTCHA_LENGTH', 5);
 return [
 	'plugin' => [
 		'name' => 'Captcha',
-		'version' => '4.0.0',
+		'version' => '4.2.0',
 	],
 	'bootstrap' => \CaptchaBootstrap::class,
 	'routes' => [

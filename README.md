@@ -1,7 +1,7 @@
-Captcha Plugin for Elgg 4.0 and newer Elgg 4.X
+Captcha Plugin for Elgg 4.2 and newer Elgg 4.X
 ==============================================
 
-Latest Version: 4.0.0  
+Latest Version: 4.2.0  
 Released: 2022-05-28  
 Contact: iionly@gmx.de  
 Website: https://github.com/iionly  
